@@ -1,0 +1,14 @@
+# Respaldos de la base de datos y fotos antiguas (contienen datos personales)
+respaldos/
+
+# Fotos subidas por los usuarios
+VISTA/img/docentes/
+VISTA/img/estudiantes/
+VISTA/img/representantes/
+VISTA/dist/img/usuarios/
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

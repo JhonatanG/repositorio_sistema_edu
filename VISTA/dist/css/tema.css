@@ -1,0 +1,492 @@
+/*=============================================
+=   TEMA INSTITUCIONAL U.E. "CRISTÓBAL COLÓN"   =
+=   Colores tomados del escudo: azul, rojo y dorado
+=============================================*/
+:root {
+  --azul: #14468c;
+  --azul-oscuro: #0a2350;
+  --azul-claro: #e8eef8;
+  --rojo: #c8102e;
+  --dorado: #c99a2e;
+  --verde: #2e8b57;
+  --fondo: #f3f5f9;
+}
+
+body {
+  background: var(--fondo);
+}
+
+.content-wrapper {
+  background: var(--fondo);
+}
+
+/*=============================================
+BARRA SUPERIOR
+=============================================*/
+.main-header.navbar {
+  background: var(--azul);
+  border-bottom: 3px solid var(--rojo);
+}
+
+.main-header .nav-link,
+.main-header .nav-link:hover,
+.main-header .dropdown-toggle,
+.main-header .dropdown-toggle:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.main-header .user-menu > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+}
+
+.main-header .user-image {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, .7);
+}
+
+/*=============================================
+MENÚ LATERAL
+=============================================*/
+.main-sidebar {
+  background: linear-gradient(180deg, var(--azul-oscuro) 0%, #0f3570 100%);
+}
+
+.main-sidebar .brand-link {
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.main-sidebar .brand-image {
+  background: #fff;
+  padding: 2px;
+}
+
+.main-sidebar .user-panel img {
+  width: 2.1rem;
+  height: 2.1rem;
+  object-fit: cover;
+}
+
+.nav-sidebar .nav-link {
+  border-radius: 8px;
+  margin-bottom: 2px;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-dark-primary .nav-sidebar .nav-treeview .nav-link.active {
+  background: var(--rojo);
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-treeview .nav-link.active {
+  background: rgba(255, 255, 255, .16);
+}
+
+.nav-sidebar .nav-treeview .nav-link {
+  padding-left: 1.6rem;
+}
+
+/*=============================================
+TARJETAS, BOTONES Y TABLAS
+=============================================*/
+.card {
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(10, 35, 80, .08);
+}
+
+.card-header {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
+
+.card-primary:not(.card-outline) > .card-header,
+.bg-primary,
+.btn-primary {
+  background-color: var(--azul) !important;
+  border-color: var(--azul) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--azul-oscuro) !important;
+  border-color: var(--azul-oscuro) !important;
+}
+
+.card-primary.card-outline {
+  border-top: 3px solid var(--azul);
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.content-header h1 {
+  color: var(--azul-oscuro);
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.content-header h1 i {
+  color: var(--rojo);
+  margin-right: 6px;
+}
+
+.table thead th {
+  background: var(--azul-claro);
+  color: var(--azul-oscuro);
+  border-bottom: 2px solid var(--azul);
+  white-space: nowrap;
+}
+
+.table td img.img-thumbnail {
+  border-radius: 50%;
+  object-fit: cover;
+  height: 40px;
+}
+
+.dt-buttons .btn {
+  margin-right: 4px;
+  margin-bottom: 8px;
+}
+
+.page-item.active .page-link {
+  background-color: var(--azul);
+  border-color: var(--azul);
+}
+
+/*=============================================
+INICIO: BIENVENIDA, TOTALES Y ACCESOS
+=============================================*/
+.bienvenida {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 26px;
+  border-radius: 14px;
+  color: #fff;
+  background:
+    linear-gradient(120deg, rgba(10, 35, 80, .95), rgba(20, 70, 140, .88)),
+    url("../img/fondo.jpg") center / cover;
+  box-shadow: 0 6px 18px rgba(10, 35, 80, .25);
+}
+
+.bienvenida img {
+  width: 70px;
+  height: auto;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .35));
+}
+
+.bienvenida h2 {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.bienvenida p {
+  margin: 0;
+  opacity: .92;
+}
+
+.small-box {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(10, 35, 80, .12);
+}
+
+.small-box.bg-azul { background: var(--azul); color: #fff; }
+.small-box.bg-rojo { background: var(--rojo); color: #fff; }
+.small-box.bg-dorado { background: var(--dorado); color: #fff; }
+.small-box.bg-verde { background: var(--verde); color: #fff; }
+
+.small-box .icon > i {
+  color: rgba(255, 255, 255, .25);
+}
+
+.titulo-seccion {
+  color: var(--azul-oscuro);
+  font-weight: 600;
+  margin: 10px 0 14px;
+}
+
+.acceso {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 12px;
+  border-left: 4px solid var(--azul);
+  box-shadow: 0 2px 10px rgba(10, 35, 80, .08);
+  color: #333;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+}
+
+.acceso:hover {
+  text-decoration: none;
+  color: #333;
+  transform: translateY(-2px);
+  border-left-color: var(--rojo);
+  box-shadow: 0 6px 16px rgba(10, 35, 80, .16);
+}
+
+.acceso-icono {
+  flex: 0 0 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--azul-claro);
+  color: var(--azul);
+  font-size: 1.3rem;
+}
+
+.acceso b,
+.acceso small {
+  display: block;
+}
+
+.acceso small {
+  color: #6c757d;
+}
+
+/*=============================================
+PIE DE PÁGINA
+=============================================*/
+.main-footer {
+  font-size: .85rem;
+  color: #6c757d;
+}
+
+.main-footer a {
+  color: var(--azul);
+}
+
+@media (max-width: 576px) {
+  .bienvenida {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/*=============================================
+IMPRESIÓN DESDE EL NAVEGADOR (CTRL+P)
+=============================================*/
+@media print {
+  .main-sidebar,
+  .main-header,
+  .main-footer,
+  .dt-buttons,
+  .dataTables_filter,
+  .dataTables_length,
+  .dataTables_paginate,
+  .no-exportar,
+  .btn {
+    display: none !important;
+  }
+
+  .content-wrapper {
+    margin-left: 0 !important;
+    background: #fff;
+  }
+
+  .card {
+    box-shadow: none;
+  }
+}
+
+/*=============================================
+TABLA DE CALIFICACIONES (2 QUIMESTRES O 3 TRIMESTRES)
+=============================================*/
+.tabla-notas th.periodo-1 { background: #fff4d6; color: #7a5a00; }
+.tabla-notas th.periodo-2 { background: #dff3e6; color: #1e6b3a; }
+.tabla-notas th.periodo-3 { background: #e3ecfa; color: #14468c; }
+.tabla-notas th.promedio { background: var(--azul); color: #fff; }
+.tabla-notas td.promedio { background: #f6f8fc; }
+.tabla-notas th,
+.tabla-notas td { text-align: center; vertical-align: middle; }
+.tabla-notas td:nth-child(2) { text-align: left; white-space: nowrap; }
+.tabla-ingreso-notas .form-control { min-width: 62px; text-align: center; padding: 2px 4px; }
+.tabla-ingreso-notas .promedio-periodo,
+.tabla-ingreso-notas .promedio-final { font-weight: 700; background: transparent; border-color: transparent; }
+.tabla-notas .badge { font-size: .85rem; min-width: 46px; }
+
+/*=============================================
+HORARIO SEMANAL Y CLASES DE HOY
+=============================================*/
+.horario-semana {
+  display: grid;
+  grid-template-columns: repeat(var(--dias, 5), minmax(150px, 1fr));
+  gap: 10px;
+  overflow-x: auto;
+}
+.horario-dia {
+  background: #f6f8fc;
+  border-radius: 10px;
+  padding: 8px;
+  min-height: 120px;
+}
+.horario-dia.hoy { background: var(--azul-claro); box-shadow: inset 0 0 0 2px var(--azul); }
+.horario-dia-titulo { font-weight: 700; color: var(--azul-oscuro); text-align: center; margin-bottom: 8px; }
+.horario-vacio { color: #adb5bd; text-align: center; font-size: .85rem; padding-top: 16px; }
+.horario-bloque {
+  position: relative;
+  background: #fff;
+  border-left: 4px solid var(--azul);
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  font-size: .88rem;
+  box-shadow: 0 1px 4px rgba(10, 35, 80, .08);
+}
+.horario-bloque .btnBorrarBloque { position: absolute; top: 4px; right: 4px; padding: 0 5px; }
+.horario-hora { color: var(--rojo); font-weight: 600; font-size: .8rem; }
+.clase-hoy {
+  background: #fff;
+  border-left: 4px solid var(--rojo);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(10, 35, 80, .1);
+}
+.caja-distributivo { background: #f6f8fc; border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+
+/*=============================================
+HORARIO POR CURSO (CALENDARIO CON ARRASTRAR Y SOLTAR)
+=============================================*/
+#calendarioHorario .fc-col-header-cell-cushion { color: var(--azul-oscuro); text-transform: capitalize; font-weight: 700; }
+#calendarioHorario .fc-timegrid-slot { height: 1.6em; }
+#calendarioHorario .fc-timegrid-event { border-radius: 6px; padding: 1px 3px; cursor: grab; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); }
+#calendarioHorario .fc-event-time { font-size: .72rem; opacity: .9; }
+#calendarioHorario .fc-event-title { font-size: .8rem; line-height: 1.15; }
+#calendarioHorario .horario-docente { font-size: .7rem; opacity: .9; line-height: 1.1; }
+#calendarioHorario .fc-highlight { background: rgba(20, 70, 140, .15); }
+.resumen-asignatura { border-left: 5px solid var(--azul); background: #f6f8fc; border-radius: 6px; padding: 6px 8px; margin-bottom: 6px; }
+
+/*=============================================
+TOMA DE ASISTENCIA (DOCENTE)
+=============================================*/
+.clase-hoy.tomada { border-left-color: #28a745; }
+.clase-hoy.abierta { box-shadow: 0 0 0 3px rgba(20, 70, 140, .35), 0 4px 12px rgba(10, 35, 80, .15); }
+.buscar-clase summary { cursor: pointer; color: var(--azul); font-weight: 600; outline: none; }
+.buscar-clase { background: #fff; border-radius: 10px; padding: 10px 14px; box-shadow: 0 2px 10px rgba(10, 35, 80, .06); }
+.tarjeta-lista { overflow: hidden; }
+.cabecera-lista {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 14px 20px; color: #fff;
+  background: linear-gradient(120deg, var(--azul-oscuro), var(--azul));
+}
+.cabecera-lista h4 { font-weight: 700; }
+.fecha-lista { font-size: 1.15rem; font-weight: 700; }
+.barra-herramientas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.contadores { display: flex; flex-wrap: wrap; gap: 8px; }
+.contador { padding: 5px 12px; border-radius: 20px; font-size: .88rem; }
+.contador.presente { background: #e3f6e8; color: #1e7b3a; }
+.contador.falta { background: #fde4e7; color: #b0102a; }
+.contador.fuga { background: #fff1d6; color: #8a5a00; }
+.contador.justificada { background: #e3ecfa; color: var(--azul); }
+.lista-estudiantes { display: flex; flex-direction: column; gap: 6px; }
+.fila-estudiante {
+  display: flex; align-items: center; gap: 12px; padding: 8px 12px;
+  background: #fff; border: 1px solid #e6eaf1; border-left: 4px solid #28a745; border-radius: 10px;
+  transition: border-color .15s, background .15s;
+}
+.fila-estudiante.marcada-falta { border-left-color: var(--rojo); background: #fff8f9; }
+.fila-estudiante.marcada-fuga { border-left-color: #f0a500; background: #fffcf3; }
+.fila-estudiante .numero { width: 22px; color: #adb5bd; font-size: .85rem; text-align: right; }
+.fila-estudiante .avatar {
+  flex: 0 0 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--azul-claro); color: var(--azul); font-weight: 700;
+}
+.fila-estudiante .datos { flex: 1; min-width: 0; }
+.fila-estudiante .datos b { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fila-estudiante .datos small { color: #6c757d; }
+.selector-asistencia { display: flex; gap: 6px; }
+.selector-asistencia .opcion { margin: 0; cursor: pointer; }
+.selector-asistencia input { position: absolute; opacity: 0; pointer-events: none; }
+.selector-asistencia .opcion span {
+  display: inline-block; padding: 7px 14px; border-radius: 8px; font-weight: 600; font-size: .9rem;
+  border: 2px solid #dee2e6; color: #6c757d; background: #fff; transition: all .12s; user-select: none;
+}
+.selector-asistencia .opcion:hover span { border-color: #adb5bd; }
+.selector-asistencia input:focus-visible + span { outline: 2px solid var(--azul); outline-offset: 2px; }
+.selector-asistencia .presente input:checked + span { background: #28a745; border-color: #28a745; color: #fff; }
+.selector-asistencia .falta input:checked + span { background: var(--rojo); border-color: var(--rojo); color: #fff; }
+.selector-asistencia .fuga input:checked + span { background: #f0a500; border-color: #f0a500; color: #fff; }
+.estado-final { padding: 5px 12px; border-radius: 8px; font-weight: 600; font-size: .9rem; }
+.estado-final.presente { background: #e3f6e8; color: #1e7b3a; }
+.estado-final.falta { background: #fde4e7; color: #b0102a; }
+.estado-final.fuga { background: #fff1d6; color: #8a5a00; }
+.estado-final.justificada { background: #e3ecfa; color: var(--azul); }
+.barra-guardar {
+  position: sticky; bottom: 0; z-index: 5; margin: 14px -20px -20px; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  background: rgba(255, 255, 255, .96); border-top: 1px solid #e6eaf1; box-shadow: 0 -4px 12px rgba(10, 35, 80, .06);
+}
+@media (max-width: 576px) {
+  .fila-estudiante { flex-wrap: wrap; }
+  .selector-asistencia { width: 100%; }
+  .selector-asistencia .opcion { flex: 1; }
+  .selector-asistencia .opcion span { display: block; text-align: center; padding: 9px 4px; }
+  .barra-guardar .btn { width: 100%; }
+}
+
+/*=============================================
+JUSTIFICAR FALTAS (SECRETARÍA)
+=============================================*/
+.detalle-justificar { background: #f6f8fc; border-left: 4px solid var(--azul); border-radius: 8px; padding: 8px 12px; font-size: .9rem; }
+.motivos-rapidos .btn { margin: 0 4px 4px 0; }
+.pestañas-faltas .btn { font-weight: 600; }
+
+/*=============================================
+MATRÍCULA E HISTORIAL ACADÉMICO
+=============================================*/
+.cursos-matricula { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.curso-matricula {
+  position: relative; margin: 0; padding: 10px 12px; cursor: pointer;
+  background: #fff; border: 2px solid #e6eaf1; border-radius: 10px; transition: all .12s;
+}
+.curso-matricula input { position: absolute; opacity: 0; }
+.curso-matricula b, .curso-matricula small { display: block; }
+.curso-matricula small { color: #6c757d; }
+.curso-matricula .badge { margin-top: 4px; }
+.curso-matricula.corresponde { border-color: #8fd19e; background: #f3fbf5; }
+.curso-matricula:hover:not(.bloqueado) { border-color: var(--azul); }
+.curso-matricula.elegido { border-color: var(--azul); background: var(--azul-claro); box-shadow: 0 0 0 3px rgba(20, 70, 140, .2); }
+.curso-matricula.bloqueado { opacity: .45; cursor: not-allowed; background: #f8f9fa; }
+.linea-tiempo { position: relative; padding-left: 22px; }
+.linea-tiempo::before { content: ""; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: #dee2e6; }
+.linea-tiempo .hito { position: relative; padding: 0 0 14px; }
+.linea-tiempo .punto { position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 3px #fff; }
+.notas-hito { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 6px; font-size: .85rem; }
+.avatar-grande {
+  width: 56px; height: 56px; border-radius: 50%; margin-right: 14px; display: flex; align-items: center; justify-content: center;
+  background: var(--azul); color: #fff; font-size: 1.5rem; font-weight: 700;
+}
+
+/*=============================================
+MI PERFIL
+=============================================*/
+.zona-foto { position: relative; width: 170px; height: 170px; margin: 0 auto; border-radius: 50%; cursor: pointer; }
+.zona-foto img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 14px rgba(10, 35, 80, .25); }
+.zona-foto-icono {
+  position: absolute; right: 8px; bottom: 8px; width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; background: var(--azul); color: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+}
+.zona-foto::after {
+  content: "Cambiar foto"; position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: rgba(10, 35, 80, .55); color: #fff; font-weight: 600; opacity: 0; transition: opacity .15s;
+}
+.zona-foto:hover::after, .zona-foto.arrastrando::after { opacity: 1; }
+.zona-foto.arrastrando img { border-color: var(--azul); }
+.main-sidebar .user-panel a.foto-perfil img { transition: transform .15s; }
+.main-sidebar .user-panel a.foto-perfil:hover img { transform: scale(1.08); }
