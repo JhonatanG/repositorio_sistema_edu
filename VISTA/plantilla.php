@@ -1,5 +1,5 @@
 <?php
-session_set_cookie_params(array("httponly"=>true, "samesite"=>"Lax"));
+session_set_cookie_params(array("httponly"=>true, "samesite"=>"Lax", "secure"=>Seguridad::esHttps()));
 session_start();//INICIAR VARIABLES DE SESSION
 
 include "MODULO/config.php";

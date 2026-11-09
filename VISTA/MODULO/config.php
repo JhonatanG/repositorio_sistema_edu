@@ -3,7 +3,7 @@
    funcionen igual en XAMPP (http://localhost:81/EDU/), Docker (http://localhost:8080/)
    o cualquier otro host/puerto/carpeta. */
 if (!defined("SERVERURL")) {
-    $esquema = (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ? "https" : "http";
+    $esquema = Seguridad::esHttps() ? "https" : "http";
     $host = isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : "localhost";
     $base = str_replace("\\", "/", dirname(isset($_SERVER["SCRIPT_NAME"]) ? $_SERVER["SCRIPT_NAME"] : "/index.php"));
     $base = preg_replace('#/ajax$#', '', $base);

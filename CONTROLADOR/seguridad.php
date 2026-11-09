@@ -33,6 +33,12 @@ static public function tipoUsuario($usuario){
   return preg_match('/^([DRE])[0-9]{6,}$/', self::normalizarUsuario($usuario), $m) ? $m[1] : "U";
 }
 
+/* HTTPS directo, o detrás del proxy de Render y otras nubes (cabecera X-Forwarded-Proto) */
+static public function esHttps(){
+  return (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off")
+    || (!empty($_SERVER["HTTP_X_FORWARDED_PROTO"]) && strtolower($_SERVER["HTTP_X_FORWARDED_PROTO"]) === "https");
+}
+
 static public function rol(){
   return isset($_SESSION["rol"]) ? $_SESSION["rol"] : "";
 }
