@@ -95,6 +95,25 @@ CREATE TABLE `edu_tab_estudiantes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `edu_tab_fotos`
+--
+
+DROP TABLE IF EXISTS `edu_tab_fotos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `edu_tab_fotos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` char(1) NOT NULL COMMENT 'U usuario, D docente, R representante, E estudiante',
+  `id_persona` int(11) NOT NULL,
+  `datos` mediumblob NOT NULL,
+  `mime` varchar(30) NOT NULL,
+  `actualizado` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_foto_persona` (`tipo`,`id_persona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `edu_tab_grad_docente`
 --
 
@@ -406,7 +425,7 @@ CREATE TABLE `edu_tab_usuarios` (
 LOCK TABLES `edu_tab_usuarios` WRITE;
 /*!40000 ALTER TABLE `edu_tab_usuarios` DISABLE KEYS */;
 INSERT INTO `edu_tab_usuarios` VALUES
-(24,'admin','admin','$2y$10$TNjYYTn4oi2rCwocBjnlqex8.le/H/moi6.AV3iRzvnbOGdjuSMxO','Administrador','VISTA/dist/img/usuarios/admin/928.jpg',1,'2026-11-09 16:39:52','2026-11-09 21:39:52');
+(24,'admin','admin','$2y$10$TNjYYTn4oi2rCwocBjnlqex8.le/H/moi6.AV3iRzvnbOGdjuSMxO','Administrador','',1,'2026-11-09 16:39:52','2026-11-09 21:39:52');
 /*!40000 ALTER TABLE `edu_tab_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

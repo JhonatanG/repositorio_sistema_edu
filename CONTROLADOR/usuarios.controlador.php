@@ -71,7 +71,6 @@ static public function ctrCrearUsuarios(){
       /*=============================================
       =   VALIDAR Y GUARDAR IMAGEN (JPG O PNG, MÁX 2MB)  =
       =============================================*/
-      $ruta = Seguridad::guardarFoto(isset($_FILES["nuevaFoto"]) ? $_FILES["nuevaFoto"] : array(), "VISTA/dist/img/usuarios/".$_POST["nuevoUsuario"]);
       if(!Seguridad::passwordValida($_POST["nuevoPassword"])){
         echo Seguridad::alerta("error", "¡Contraseña muy débil!", "Use al menos 8 caracteres, con letras y números.", "usuarios/");
         return;
@@ -86,9 +85,11 @@ static public function ctrCrearUsuarios(){
                   "usuario"=>$_POST["nuevoUsuario"],
                   "password"=>$encriptar,
                   "rol"=>$_POST["nuevoRol"],
-                   "foto"=>$ruta);
+                   "foto"=>"");
         $respuesta=ModeloUsuarios::mdlCrearUsuario($tabla,$datos);
           if($respuesta=="ok"){
+            /*LA FOTO SE GUARDA EN LA BASE CUANDO EL USUARIO YA TIENE ID*/
+            Seguridad::guardarFotoNuevo(isset($_FILES["nuevaFoto"]) ? $_FILES["nuevaFoto"] : array(), "U", $_POST["nuevoUsuario"]);
             echo'<script>
             Swal.fire({
               icon: "success",
@@ -165,9 +166,8 @@ public function ctrEditarUsuario(){
           return;
         }
         $ruta = $actual["foto"];
-        $nuevaRuta = Seguridad::guardarFoto(isset($_FILES["editarFoto"]) ? $_FILES["editarFoto"] : array(), "VISTA/dist/img/usuarios/".basename($actual["usuario"]));
+        $nuevaRuta = Seguridad::guardarFoto(isset($_FILES["editarFoto"]) ? $_FILES["editarFoto"] : array(), "U", $actual["id"]);
         if($nuevaRuta != ""){
-          Seguridad::borrarFoto($ruta, "VISTA/dist/img/usuarios");
           $ruta = $nuevaRuta;
         }
 
@@ -236,16 +236,13 @@ public function ctrEditarUsuario(){
         echo Seguridad::alerta("warning", "¡No se pudo borrar!", "No puede borrar el usuario con el que inició sesión.", "usuarios/");
         return;
       }
-      $usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla, "id", $datos);
 
       $respuesta = ModeloUsuarios::mdlBorrarUsuario($tabla, $datos);
 
       if($respuesta == "ok"){
 
-        /*LA FOTO SE TOMA DE LA BASE Y SOLO SE BORRA SI EL REGISTRO SE BORRÓ*/
-        if($usuario){
-          Seguridad::borrarFoto($usuario["foto"], "VISTA/dist/img/usuarios");
-        }
+        /*LA FOTO SOLO SE BORRA SI EL REGISTRO SE BORRÓ*/
+        Seguridad::borrarFoto("U", $datos);
   
         echo'<script>
   

@@ -32,57 +32,22 @@
         <div class="card">
             <div class="card-body">
             <div class="card-header">
-                <!-- =============================================
-FORM BUSCAR DOCENTE
-=============================================*/ -->
-                <form method="POST">
-                    <div class="row">
-
-                        <div class="col-md-2">
-
-
-                        </div>
-                        <div class="col-md-4">
-
-                            <div class="form-group">
-
-                                <label>Estudiante:</label>
-                                <select class="form-control select2bs4" style="width: 100%;" name="idEstudiante"
-                                    id="idEstudiante" data-placeholder="Seleccionar">
-                                    <option value="">Seleccionar</option>
-                                    <?php
-                                $id=$_SESSION["id"];
-                               $estudiantes=ControladorAsistencia::ctrEstuRepre($id);
-                             
-                               foreach($estudiantes as $key=>$value){
-                                if(isset($_POST["idEstudiante"]) && $_POST["idEstudiante"] == $value["id"]){
-
-                                echo'<option value="'.$value["id"].'" selected>'.$value["cedula"].': '.$value["nombre"].'</option>';
-                                $idEstud=$value["id"];
-                                }else{
-                                   
-                                echo'<option value="'.$value["id"].'">'.$value["cedula"].': '.$value["nombre"].'</option>';
-                                  
-                            }   
-                          
-                               
-                              }
-                            
-                                          ?>
-
-                                </select>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Buscar Estudiante:</label>
-                                <button class="form-control btn btn-info">Buscar <i
-                                        class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-
+                <form method="post" class="row align-items-end filtros">
+                    <div class="col-lg-9 col-md-8 form-group">
+                        <label>Estudiante</label>
+                        <select class="form-control select2bs4" style="width: 100%;" name="idEstudiante" id="idEstudiante" required>
+                            <option value="">Seleccionar</option>
+                            <?php
+                            foreach(ControladorAsistencia::ctrEstuRepre($_SESSION["id"]) as $value){
+                              $elegido = isset($_POST["idEstudiante"]) && $_POST["idEstudiante"] == $value["id"];
+                              if($elegido){ $idEstud = $value["id"]; }
+                              echo '<option value="'.$value["id"].'"'.($elegido ? ' selected' : '').'>'.htmlspecialchars($value["cedula"].": ".$value["nombre"]).'</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form-group">
+                        <button class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
                     </div>
                 </form>
             </div>

@@ -1,18 +1,18 @@
 <?php
 /*========================================================================
 MI PERFIL: CADA USUARIO CAMBIA SU FOTO Y SUS DATOS DE CONTACTO
-La tabla y la carpeta salen del rol de la sesión, nunca del formulario.
+La tabla y el tipo de foto salen del rol de la sesión, nunca del formulario.
 ==========================================================================*/
 class ControladorPerfil{
 
 static public function config(){
   $rol = Seguridad::rol();
   $mapa = array(
-    "Administrador" => array("tabla"=>"edu_tab_usuarios", "carpeta"=>"VISTA/dist/img/usuarios", "campos"=>array("nombre")),
-    "Secretaría"    => array("tabla"=>"edu_tab_usuarios", "carpeta"=>"VISTA/dist/img/usuarios", "campos"=>array("nombre")),
-    "Docente"       => array("tabla"=>"edu_tab_docentes", "carpeta"=>"VISTA/img/docentes", "campos"=>array("email","telefono","direccion")),
-    "Representante" => array("tabla"=>"edu_tab_representantes", "carpeta"=>"VISTA/img/representantes", "campos"=>array("email","telefono","direccion")),
-    "Estudiante"    => array("tabla"=>"edu_tab_estudiantes", "carpeta"=>"VISTA/img/estudiantes", "campos"=>array("email","telefono","direccion"))
+    "Administrador" => array("tabla"=>"edu_tab_usuarios", "tipo"=>"U", "campos"=>array("nombre")),
+    "Secretaría"    => array("tabla"=>"edu_tab_usuarios", "tipo"=>"U", "campos"=>array("nombre")),
+    "Docente"       => array("tabla"=>"edu_tab_docentes", "tipo"=>"D", "campos"=>array("email","telefono","direccion")),
+    "Representante" => array("tabla"=>"edu_tab_representantes", "tipo"=>"R", "campos"=>array("email","telefono","direccion")),
+    "Estudiante"    => array("tabla"=>"edu_tab_estudiantes", "tipo"=>"E", "campos"=>array("email","telefono","direccion"))
   );
   return isset($mapa[$rol]) ? $mapa[$rol] : null;
 }
@@ -34,33 +34,23 @@ static public function ctrFoto(){
     echo Seguridad::alerta("error", "¡Sesión caducada!", "Recargue la página e intente de nuevo.", "perfil/");
     return;
   }
-  $actual = ModeloPerfil::mdlObtener($cfg["tabla"], $_SESSION["id"]);
-  $fotoAnterior = $actual && isset($actual["foto"]) ? $actual["foto"] : "";
-
   if($_POST["accionFoto"] == "quitar"){
     if(ModeloPerfil::mdlActualizarFoto($cfg["tabla"], $_SESSION["id"], "") == "ok"){
-      Seguridad::borrarFoto($fotoAnterior, $cfg["carpeta"]);
+      Seguridad::borrarFoto($cfg["tipo"], $_SESSION["id"]);
       $_SESSION["foto"] = "";
       echo Seguridad::alerta("success", "¡Foto quitada!", "Se mostrará la imagen por defecto.", "perfil/");
     }
     return;
   }
 
-  $ruta = Seguridad::guardarFoto(isset($_FILES["fotoPerfil"]) ? $_FILES["fotoPerfil"] : array(), $cfg["carpeta"]."/".basename($actual["usuario"]));
+  /*guardarFoto TAMBIÉN ACTUALIZA LA COLUMNA foto DEL REGISTRO*/
+  $ruta = Seguridad::guardarFoto(isset($_FILES["fotoPerfil"]) ? $_FILES["fotoPerfil"] : array(), $cfg["tipo"], $_SESSION["id"]);
   if($ruta == ""){
     echo Seguridad::alerta("error", "¡Foto no válida!", "Elija una imagen JPG o PNG de máximo 2 MB.", "perfil/");
     return;
   }
-  if(ModeloPerfil::mdlActualizarFoto($cfg["tabla"], $_SESSION["id"], $ruta) == "ok"){
-    if($fotoAnterior != $ruta){
-      Seguridad::borrarFoto($fotoAnterior, $cfg["carpeta"]);
-    }
-    $_SESSION["foto"] = $ruta;
-    echo Seguridad::alerta("success", "¡Foto actualizada!", "Su nueva foto ya se muestra en el sistema.", "perfil/");
-  }else{
-    Seguridad::borrarFoto($ruta, $cfg["carpeta"]);
-    echo Seguridad::alerta("error", "¡No se pudo guardar!", Conexion::$ultimoError, "perfil/");
-  }
+  $_SESSION["foto"] = $ruta;
+  echo Seguridad::alerta("success", "¡Foto actualizada!", "Su nueva foto ya se muestra en el sistema.", "perfil/");
 }
 
 /*=============================================

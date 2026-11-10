@@ -68,7 +68,6 @@ static public function ctrCrearDocentes(){
         echo Seguridad::alerta("error", "¡Cédula no válida!", "Revise el número de cédula ingresado.", "docente/");
         return;
       }
-      $ruta = Seguridad::guardarFoto(isset($_FILES["nuevaFotoD"]) ? $_FILES["nuevaFotoD"] : array(), "VISTA/img/docentes/".$_POST["nuevoUsuarioD"]);
       $contra=$_POST["nuevaPasswordD"];
       $encriptar=password_hash($contra,PASSWORD_DEFAULT );
       //password hash
@@ -85,10 +84,12 @@ static public function ctrCrearDocentes(){
         "usuario"=>$_POST["nuevoUsuarioD"],
         "password"=>$encriptar,
          "rol"=>$_POST["nuevoRolD"],
-          "foto"=>$ruta);
+          "foto"=>"");
 
       $respuesta=ModeloDocentes::mdlCrearDocente($tabla,$datos);
       if($respuesta=="ok"){
+        /*LA FOTO SE GUARDA EN LA BASE CUANDO EL DOCENTE YA TIENE ID*/
+        Seguridad::guardarFotoNuevo(isset($_FILES["nuevaFotoD"]) ? $_FILES["nuevaFotoD"] : array(), "D", $_POST["nuevoUsuarioD"]);
         echo'<script>
         Swal.fire({
           icon: "success",
@@ -167,9 +168,8 @@ public function ctrEditarDocente(){
         return;
       }
       $ruta = $actual["foto"];
-      $nuevaRuta = Seguridad::guardarFoto(isset($_FILES["editarFotoD"]) ? $_FILES["editarFotoD"] : array(), "VISTA/img/docentes/".basename($actual["usuario"]));
+      $nuevaRuta = Seguridad::guardarFoto(isset($_FILES["editarFotoD"]) ? $_FILES["editarFotoD"] : array(), "D", $actual["id"]);
       if($nuevaRuta != ""){
-        Seguridad::borrarFoto($ruta, "VISTA/img/docentes");
         $ruta = $nuevaRuta;
       }
 
@@ -234,16 +234,13 @@ static public function ctrBorrarDocente(){
 
     $tabla ="edu_tab_docentes";
     $datos = $_POST["idDocente"];
-    $docente = ModeloDocentes::mdlMostrarDocentes($tabla, "id", $datos);
 
     $respuesta = ModeloDocentes::mdlBorrarDocente($tabla, $datos);
 
     if($respuesta == "ok"){
 
-      /*LA FOTO SE TOMA DE LA BASE Y SOLO SE BORRA SI EL REGISTRO SE BORRÓ*/
-      if($docente){
-        Seguridad::borrarFoto($docente["foto"], "VISTA/img/docentes");
-      }
+      /*LA FOTO SOLO SE BORRA SI EL REGISTRO SE BORRÓ*/
+      Seguridad::borrarFoto("D", $datos);
 
       echo'<script>
 

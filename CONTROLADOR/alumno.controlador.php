@@ -210,6 +210,7 @@ static public function ctrBorrarEstudiante(){
     $respuesta = ModeloAlumnos::mdlBorrarEstudiante($tabla, $datos);
 
     if($respuesta == "ok"){
+      Seguridad::borrarFoto("E", $datos);
 
       echo'<script>
 

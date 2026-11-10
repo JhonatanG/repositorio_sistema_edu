@@ -1,3 +1,31 @@
+/*=============================================
+FILTRO: AL ELEGIR EL DOCENTE SE CARGAN SUS CURSOS
+=============================================*/
+$("#idDocenteA").change(function(){
+    var idDocente = $(this).val();
+    $("#idDocenteG").val(idDocente);
+    $("#idGrado").html('<option value="">Seleccionar</option>').trigger("change.select2");
+    $("#idMateria").html('').trigger("change.select2");
+    if (!idDocente) return;
+
+    var datos = new FormData();
+    datos.append("gradosDocente", idDocente);
+    $.ajax({
+      url: SERVERURL + "ajax/asistencia.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (respuesta) {
+        for (var x of respuesta) {
+          $("#idGrado").append($("<option>").val(x.id).text(x.grado));
+        }
+      }
+    });
+});
+
 $("#idGrado").change(function(){
     var idDocente = document.getElementById("idDocenteG").value;
 

@@ -51,6 +51,14 @@ if(isset($_POST["idDocente"])){
 }
 
 /*=============================================
+=  CURSOS DEL DOCENTE (FILTRO DE ADMINISTRADOR Y SECRETARÍA)
+=============================================*/
+if(isset($_POST["gradosDocente"])){
+  $idDocente = Seguridad::rol()=="Docente" ? $_SESSION["id"] : (int)$_POST["gradosDocente"];
+  echo json_encode(ControladorAsistencia::ctrListaGradosDocente("id_docente", $idDocente));
+}
+
+/*=============================================
 =  EDITAR ASISTENCIA
 =============================================*/
 if(isset($_POST["idAsistencia"])){

@@ -67,7 +67,7 @@ $pendientes = $filtros["estado"]=="FI";
               </select>
             </div>
             <div class="col-md-3 form-group">
-              <button class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Filtrar</button>
+              <button class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
             </div>
             <div class="col-12">
               <div class="btn-group btn-group-toggle pestañas-faltas" data-toggle="buttons">

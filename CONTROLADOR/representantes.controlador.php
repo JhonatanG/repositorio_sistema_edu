@@ -216,6 +216,7 @@ static public function ctrBorrarRepresentante(){
     $respuesta = ModeloRepresentantes::mdlBorrarRepresentante($tabla, $datos);
 
     if($respuesta == "ok"){
+      Seguridad::borrarFoto("R", $datos);
 
       echo'<script>
 

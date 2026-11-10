@@ -128,23 +128,22 @@ static public function tokenValido(){
 }
 
 /*=============================================
-FOTOS: GUARDAR Y BORRAR DE FORMA SEGURA
+FOTOS: SE GUARDAN EN LA BASE DE DATOS (TABLA edu_tab_fotos), NO EN EL DISCO,
+PORQUE EL HOSTING BORRA LOS ARCHIVOS SUBIDOS EN CADA DEPLOY.
+Tipo: U usuario del sistema, D docente, R representante, E estudiante.
 =============================================*/
-/* Guarda la imagen subida en $carpeta redimensionada a 500x500.
-   Devuelve la ruta guardada, o "" si no se subió una imagen válida (JPG o PNG, máximo 2MB). */
-static public function guardarFoto($archivo, $carpeta){
+/* Imagen subida recortada en cuadrado al centro y reducida a 500x500.
+   Devuelve array("datos","mime") o null si no es una imagen válida (JPG o PNG, máximo 2MB). */
+static public function procesarFoto($archivo){
   if(!isset($archivo["tmp_name"]) || $archivo["tmp_name"]=="" || $archivo["error"]!==UPLOAD_ERR_OK){
-    return "";
+    return null;
   }
   if($archivo["size"] > 2000000){
-    return "";
+    return null;
   }
   $info = @getimagesize($archivo["tmp_name"]);
   if($info===false || !in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_PNG))){
-    return "";
-  }
-  if(!is_dir($carpeta)){
-    mkdir($carpeta, 0755, true);
+    return null;
   }
   /*RECORTE CUADRADO AL CENTRO PARA QUE LA FOTO NO SE DEFORME*/
   list($ancho, $alto) = $info;
@@ -152,38 +151,43 @@ static public function guardarFoto($archivo, $carpeta){
   $x = (int)(($ancho - $lado) / 2);
   $y = (int)(($alto - $lado) / 2);
   $destino = imagecreatetruecolor(500, 500);
-  $aleatorio = date("YmdHis").mt_rand(10,99);
+  ob_start();
   if($info[2]==IMAGETYPE_JPEG){
     $origen = imagecreatefromjpeg($archivo["tmp_name"]);
     imagecopyresampled($destino,$origen,0,0,$x,$y,500,500,$lado,$lado);
-    $ruta = $carpeta."/".$aleatorio.".jpg";
-    imagejpeg($destino,$ruta,90);
+    imagejpeg($destino,null,90);
+    $mime = "image/jpeg";
   }else{
     imagealphablending($destino, false);
     imagesavealpha($destino, true);
     $origen = imagecreatefrompng($archivo["tmp_name"]);
     imagecopyresampled($destino,$origen,0,0,$x,$y,500,500,$lado,$lado);
-    $ruta = $carpeta."/".$aleatorio.".png";
-    imagepng($destino,$ruta);
+    imagepng($destino);
+    $mime = "image/png";
   }
+  return array("datos"=>ob_get_clean(), "mime"=>$mime);
+}
+
+/* Guarda la foto de la persona en la base y actualiza su columna foto.
+   Devuelve la dirección para el <img> (mostrar_foto.php?...), o "" si la imagen no es válida.
+   La "v" cambia en cada foto nueva para que el navegador no muestre la anterior. */
+static public function guardarFoto($archivo, $tipo, $id){
+  $foto = self::procesarFoto($archivo);
+  if(!$foto || !$id || ModeloFotos::mdlGuardar($tipo, $id, $foto["datos"], $foto["mime"])!="ok"){
+    return "";
+  }
+  $ruta = "mostrar_foto.php?t=".$tipo."&id=".(int)$id."&v=".date("YmdHis").mt_rand(10,99);
+  ModeloFotos::mdlActualizarRuta($tipo, $id, $ruta);
   return $ruta;
 }
 
-/* Borra la foto solo si está dentro de $base; si la carpeta queda vacía también la borra */
-static public function borrarFoto($ruta, $base){
-  if($ruta==""){
-    return;
-  }
-  $baseReal = realpath($base);
-  $archivo = realpath($ruta);
-  if($baseReal===false || $archivo===false || strpos($archivo, $baseReal.DIRECTORY_SEPARATOR)!==0 || !is_file($archivo)){
-    return;
-  }
-  unlink($archivo);
-  $carpeta = dirname($archivo);
-  if($carpeta!==$baseReal && count(scandir($carpeta))==2){
-    rmdir($carpeta);
-  }
+/* Foto de un registro recién creado: su id se busca por el usuario */
+static public function guardarFotoNuevo($archivo, $tipo, $usuario){
+  return self::guardarFoto($archivo, $tipo, ModeloFotos::mdlIdPorUsuario($tipo, $usuario));
+}
+
+static public function borrarFoto($tipo, $id){
+  ModeloFotos::mdlBorrar($tipo, $id);
 }
 
 /*=============================================

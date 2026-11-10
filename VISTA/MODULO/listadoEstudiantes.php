@@ -99,7 +99,7 @@ foreach($cursos as $c){ $niveles[$c["id_grado"]] = $c["grado"]; }
               </select>
             </div>
             <div class="col-md-3 form-group">
-              <button class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Ver listado</button>
+              <button class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
             </div>
           </form>
         </div>

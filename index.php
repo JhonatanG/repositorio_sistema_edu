@@ -45,6 +45,7 @@ require_once "MODELO/notas.modelo.php";
 require_once "MODELO/inicio.modelo.php";
 require_once "MODELO/horario.modelo.php";
 require_once "MODELO/perfil.modelo.php";
+require_once "MODELO/fotos.modelo.php";
 
 
 
