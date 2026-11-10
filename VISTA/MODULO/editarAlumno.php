@@ -1,5 +1,5 @@
 <?php
- if($_SESSION["rol"]=="Secretaría" || $_SESSION["rol"]=="Docente"
+ if($_SESSION["rol"]=="Docente"
  || $_SESSION["rol"]=="Representante"|| $_SESSION["rol"]=="Estudiante" ){
   echo  '<script> 
   window.location="'.SERVERURL.'inicio/";
@@ -68,7 +68,7 @@ foreach (ModeloAlumnos::mdlMostrarAlumnoEditar($id) as $a){
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                         <input type="text" class="form-control input-lg" name="editarNombreE"
-                                            id="editarNombreE" value="<?php echo $a["nombres"]?>" readonly>
+                                            id="editarNombreE" value="<?php echo htmlspecialchars($a["nombres"])?>" required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                                     </div>
                                 </div>
                                 <!-- APELLIDOS -->
@@ -76,7 +76,7 @@ foreach (ModeloAlumnos::mdlMostrarAlumnoEditar($id) as $a){
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                         <input type="text" class="form-control input-lg" name="editarApellidoE"
-                                            id="editarApellidoE" value="<?php echo $a["apellidos"]?>" readonly>
+                                            id="editarApellidoE" value="<?php echo htmlspecialchars($a["apellidos"])?>" required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                                     </div>
                                 </div>
                                 <!-- GENERO -->

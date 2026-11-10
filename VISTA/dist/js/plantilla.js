@@ -350,3 +350,117 @@ $(function () {
     }
   });
 });
+
+/*=============================================
+FICHA DE DOCENTE, ESTUDIANTE O REPRESENTANTE CON SU FOTO
+Botón: <button class="btnFicha" data-tipo="D|E|R" data-id="...">
+=============================================*/
+(function () {
+  var nombresTipo = { D: "Docente", E: "Estudiante", R: "Representante" };
+  var fotoDefecto = SERVERURL + "VISTA/img/anonymous.png";
+
+  function esc(texto) {
+    return $("<div>").text(texto == null ? "" : String(texto)).html();
+  }
+  function foto(ruta) {
+    return ruta ? SERVERURL + ruta : fotoDefecto;
+  }
+  function fecha(valor) {
+    if (!valor) return "";
+    var p = String(valor).substr(0, 10).split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : valor;
+  }
+  function edad(valor) {
+    if (!valor) return "";
+    var hoy = new Date(), nac = new Date(String(valor).substr(0, 10) + "T00:00:00");
+    var anios = hoy.getFullYear() - nac.getFullYear();
+    var m = hoy.getMonth() - nac.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) anios--;
+    return isNaN(anios) ? "" : anios + " años";
+  }
+  function genero(valor) {
+    return valor === "M" ? "Masculino" : valor === "F" ? "Femenino" : valor;
+  }
+  /* Un dato de la ficha; si está vacío se muestra un guion */
+  function dato(icono, titulo, valor, ancho) {
+    return '<div class="' + (ancho || "col-sm-6") + ' ficha-dato"><i class="fas fa-' + icono + '"></i><div><small>' + titulo +
+      '</small><span>' + (valor ? esc(valor) : '<em class="text-muted">—</em>') + "</span></div></div>";
+  }
+  function seccion(titulo, contenido) {
+    return '<h6 class="ficha-seccion">' + titulo + '</h6><div class="row">' + contenido + "</div>";
+  }
+  /* Persona relacionada (representante o estudiante a cargo) en una línea con su foto */
+  function persona(p, detalle) {
+    return '<div class="col-sm-6"><div class="ficha-persona"><img src="' + esc(foto(p.foto)) + '" alt="">' +
+      "<div><b>" + esc(p.nombres + " " + p.apellidos) + "</b><small>" + esc(detalle) + "</small></div></div></div>";
+  }
+
+  function armar(tipo, d) {
+    $("#fichaFoto").attr("src", foto(d.foto));
+    $("#fichaTipo").text(nombresTipo[tipo]);
+    $("#fichaNombre").text(d.nombres + " " + d.apellidos);
+    var sub = "C.I. " + d.cedula + " · Usuario " + d.usuario;
+    if (tipo === "D") sub += d.estado == 1 ? " · Activo" : " · Inactivo";
+    $("#fichaSub").text(sub);
+
+    var html = seccion("Datos personales",
+      dato("id-card", "Cédula", d.cedula) +
+      dato("venus-mars", "Género", genero(d.genero)) +
+      (tipo !== "R" ? dato("birthday-cake", "Fecha de nacimiento", fecha(d.fecha_nacimiento)) + dato("hourglass-half", "Edad", edad(d.fecha_nacimiento)) : "")
+    );
+    html += seccion("Contacto",
+      dato("at", "Correo electrónico", d.email) +
+      dato("phone", "Teléfono", d.telefono) +
+      dato("map-marker-alt", "Dirección", d.direccion, "col-12")
+    );
+
+    var anio = d.periodo ? " (" + esc(d.periodo) + ")" : "";
+    if (tipo === "E") {
+      html += seccion("Matrícula" + anio, dato("school", "Curso", d.curso || "Sin matrícula en el año activo", "col-12"));
+      html += seccion("Representante", d.representante
+        ? persona(d.representante, "C.I. " + d.representante.cedula + (d.representante.telefono ? " · " + d.representante.telefono : ""))
+        : '<div class="col-12 text-muted">Sin representante asignado</div>');
+    }
+    if (tipo === "R") {
+      var lista = (d.representados || []).map(function (e) {
+        return persona(e, "C.I. " + e.cedula + " · " + (e.curso || "Sin matrícula"));
+      }).join("");
+      html += seccion("Estudiantes a su cargo" + anio, lista || '<div class="col-12 text-muted">No tiene estudiantes registrados</div>');
+    }
+    if (tipo === "D") {
+      var clases = (d.clases || []).map(function (c) {
+        return '<span class="ficha-clase"><b>' + esc(c.materia) + "</b> " + esc(c.curso) + "</span>";
+      }).join("");
+      html += seccion("Distributivo" + anio, '<div class="col-12">' + (clases || '<span class="text-muted">Sin clases asignadas</span>') + "</div>");
+    }
+    $("#fichaCuerpo").html(html);
+  }
+
+  $(document).on("click", ".btnFicha", function () {
+    var tipo = $(this).data("tipo"), id = $(this).data("id");
+    $("#fichaFoto").attr("src", fotoDefecto);
+    $("#fichaTipo, #fichaNombre, #fichaSub").text("");
+    $("#fichaCuerpo").html('<div class="text-center text-muted py-4"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>');
+    $("#modalFicha").modal("show");
+    $.post(SERVERURL + "ajax/ficha.ajax.php", { tipo: tipo, id: id }, null, "json")
+      .done(function (d) {
+        if (d.error) { $("#fichaCuerpo").html('<div class="alert alert-warning mb-0">' + esc(d.error) + "</div>"); return; }
+        armar(tipo, d);
+      })
+      .fail(function () {
+        $("#fichaCuerpo").html('<div class="alert alert-danger mb-0">No se pudo cargar la ficha. Recargue la página.</div>');
+      });
+  });
+
+  /* Imprimir solo la ficha, con los estilos del sistema */
+  $(document).on("click", "#imprimirFicha", function () {
+    var estilos = $('link[rel="stylesheet"]').map(function () { return this.outerHTML; }).get().join("");
+    var ventana = window.open("", "_blank");
+    if (!ventana) return;
+    ventana.document.write("<!doctype html><html><head><meta charset='utf-8'><title>" + esc($("#fichaNombre").text()) +
+      "</title>" + estilos + "<style>body{padding:24px;background:#fff}.ficha .close{display:none}</style></head><body><div class='modal-content ficha'>" +
+      $("#modalFicha .ficha-cabecera")[0].outerHTML + "<div class='modal-body'>" + $("#fichaCuerpo").html() + "</div></div></body></html>");
+    ventana.document.close();
+    ventana.onload = function () { ventana.focus(); ventana.print(); };
+  });
+})();

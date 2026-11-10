@@ -139,8 +139,8 @@ CONTROL EDITAR estudiantes REGISTRADOS EN LA BASE DE DATOS
 ==========================================================================*/
 public function ctrEditarEstudiante(){
   if(isset($_POST["editarNombreE"])){
-    if(preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarNombreE"])&&
-    preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarApellidoE"])){
+    if(preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarNombreE"]))&&
+    preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarApellidoE"]))){
 
    $tabla = "edu_tab_estudiantes";
    if($_POST["editarPassword"]!=""){
@@ -154,6 +154,8 @@ public function ctrEditarEstudiante(){
   }
     $datos = array(  
       "cedula"=>$_POST["editarCedulaE"],
+      "nombres"=>trim($_POST["editarNombreE"]),
+      "apellidos"=>trim($_POST["editarApellidoE"]),
       "email"=>$_POST["editarEmailE"],
     "telefono"=>$_POST["editarTelefonoE"],
     "direccion"=>$_POST["editarDireccionE"],
@@ -165,7 +167,7 @@ public function ctrEditarEstudiante(){
       echo'<script>
       Swal.fire({
         icon: "success",
-        title: "¡El representante ha sido modificado correctamente!",
+        title: "¡El estudiante ha sido modificado correctamente!",
         showConfirmButton: true,
         confirmButtonText: "Cerrar",
         closeOnConfirm:false
@@ -202,7 +204,7 @@ public function ctrEditarEstudiante(){
 }
 static public function ctrBorrarEstudiante(){
 
-  if(isset($_POST["idEstudiante"]) && Seguridad::tokenValido()){
+  if(isset($_POST["idEstudiante"]) && Seguridad::tokenValido() && Seguridad::rol()=="Administrador"){
 
     $tabla ="edu_tab_estudiantes";
     $datos = $_POST["idEstudiante"];

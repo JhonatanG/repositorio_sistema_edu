@@ -78,18 +78,15 @@
                           };
                     echo'<td>
                         <div class="btn-group">
-                        <button class="btn btn-primary btnVisuaDocente" idDocenteV="'.$a["id"].'" data-toggle="modal"  data-target="#modalVisualizarDocente">
-                        <i class="fas fa-eye"></i></button>';
+                        <button class="btn btn-primary btnFicha" data-tipo="D" data-id="'.$a["id"].'" title="Ver ficha"><i class="fas fa-eye"></i></button>
+                          <button class="btn btn-warning btnEditarDocente" idDocente="'.$a["id"].'" data-toggle="modal"  data-target="#modalEditarDocente" title="Editar">
+                          <i class="fas fa-edit"></i></button>';
+                        /*EDITAR: ADMINISTRADOR Y SECRETARÍA. BORRAR: SOLO EL ADMINISTRADOR*/
                         if($_SESSION["rol"]=="Administrador"){
-
-                            echo'
-                          <button class="btn btn-warning btnEditarDocente" idDocente="'.$a["id"].'" data-toggle="modal"  data-target="#modalEditarDocente">
-                          <i class="fas fa-edit"></i></butoon>
-                          <button class="btn btn-danger btnEliminarDocente" idDocente="'.$a["id"].'" usuario="'.$a["usuario"].'" fotoDocente="'.$a["foto"].'"><i class="fas fa-trash"></i></button>
-                        </div>
+                            echo '<button class="btn btn-danger btnEliminarDocente" idDocente="'.$a["id"].'" usuario="'.$a["usuario"].'" title="Borrar"><i class="fas fa-trash"></i></button>';
+                        }
+                        echo '</div>
                         </td>
-                        </tr>';}
-                        echo '</td>
                         </tr>';
         }
 
@@ -249,111 +246,11 @@ MODAL AGREGAR Docente
                     </div>
                     <?php
                   $crear=new ControladorDocentes();
-                  $crear->ctrCrearDocentes();
+                  if($_SESSION["rol"]=="Administrador"){ $crear->ctrCrearDocentes(); }
 
 
 ?>
 
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- 
-/*=============================================
-MODAL Visualizar Docente 
-=============================================*/ -->
-<div class="modal fade" id="modalVisualizarDocente" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <form method="post" enctype="multipart/form-data">
-                <div class="modal-header" style="background: #008080;">
-                    <h5 class="modal-title">Visualizar Docente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="true">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 ml-auto">
-                                <img src="" class="previsualizarD rounded-circle" width="100px">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Nombres:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaNombreD"
-                                    id="visuaNombreD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Apellidos:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaApellidoD"
-                                    id="visuaApellidoD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Cédula:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaCedulaD"
-                                    id="visuaCedulaD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Genero:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaGeneroD"
-                                    id="visuaGeneroD">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Usuario:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaUsuarioD"
-                                    id="visuaUsuarioD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Teléfono:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaTelefonoD"
-                                    id="visuaTelefonoD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-form-label">Fecha de Nacimiento:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaFechaD"
-                                    id="visuaFechaD">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Edad:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="edadD"
-                                    id="edadD" >
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 ">
-                                <label class="col-sm-3 col-form-label">Email:</label>
-                                <input type="text" readonly class="form-control-plaintext input-lg" name="visuaEmailD"
-                                    id="visuaEmailD">
-
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="col-sm-3 col-form-label">Dirección:</label>
-                                <textarea type="text" readonly class="form-control-plaintext input-lg"
-                                    name="visuaDireccionD" id="visuaDireccionD"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
-                        </div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -389,7 +286,7 @@ MODAL EDITAR Docente
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                             <input type="text" class="form-control input-lg" name="editarNombreD" id="editarNombreD"
-                                readonly>
+                                required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                         </div>
                     </div>
                     <!-- APELLIDOS -->
@@ -397,7 +294,7 @@ MODAL EDITAR Docente
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                             <input type="text" class="form-control input-lg" name="editarApellidoD" id="editarApellidoD"
-                               readonly>
+                               required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                         </div>
                     </div>
                     <!-- GENERO -->
@@ -502,3 +399,4 @@ $borrarDocente= new ControladorDocentes();
 $borrarDocente->ctrBorrarDocente();
 
 ?>
+<?php include __DIR__."/ficha.php"; ?>

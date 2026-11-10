@@ -490,3 +490,46 @@ MI PERFIL
 .zona-foto.arrastrando img { border-color: var(--azul); }
 .main-sidebar .user-panel a.foto-perfil img { transition: transform .15s; }
 .main-sidebar .user-panel a.foto-perfil:hover img { transform: scale(1.08); }
+
+/*=============================================
+FICHA DE DOCENTE, ESTUDIANTE O REPRESENTANTE
+=============================================*/
+.ficha { border: 0; border-radius: 12px; overflow: hidden; }
+.ficha-cabecera {
+  position: relative; display: flex; align-items: center; gap: 18px; padding: 22px 24px;
+  color: #fff; background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 100%);
+  border-bottom: 3px solid var(--rojo);
+}
+.ficha-cabecera .close { position: absolute; top: 12px; right: 16px; opacity: .8; }
+.ficha-foto {
+  width: 110px; height: 110px; flex: 0 0 110px; object-fit: cover; border-radius: 50%;
+  border: 4px solid #fff; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.25);
+}
+.ficha-cabecera h3 { font-weight: 600; word-break: break-word; }
+.ficha-cabecera .badge { color: var(--azul); margin-bottom: 4px; }
+.ficha-sub { opacity: .85; font-size: .95rem; }
+.ficha-seccion {
+  margin: 18px 0 10px; padding-bottom: 6px; font-weight: 700; font-size: .8rem;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--azul); border-bottom: 1px solid #e6eaf1;
+}
+.ficha-seccion:first-child { margin-top: 0; }
+.ficha-dato { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.ficha-dato > i { width: 18px; margin-top: 4px; color: var(--azul); text-align: center; }
+.ficha-dato small { display: block; color: #6c757d; line-height: 1.2; }
+.ficha-dato span { font-weight: 500; word-break: break-word; }
+.ficha-persona {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px 10px;
+  background: var(--fondo); border-radius: 10px;
+}
+.ficha-persona img { width: 46px; height: 46px; object-fit: cover; border-radius: 50%; background: #fff; }
+.ficha-persona small { display: block; color: #6c757d; }
+.ficha-clase {
+  display: inline-block; margin: 0 6px 6px 0; padding: 4px 10px; font-size: .85rem;
+  background: var(--azul-claro); color: var(--azul-oscuro); border-radius: 14px;
+}
+@media (max-width: 575px) {
+  .ficha-cabecera { flex-direction: column; text-align: center; }
+}
+@media print {
+  .ficha-cabecera { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

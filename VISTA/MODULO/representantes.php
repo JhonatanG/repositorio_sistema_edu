@@ -1,5 +1,5 @@
 <?php
- if($_SESSION["rol"]=="Secretaría" || $_SESSION["rol"]=="Docente"
+ if($_SESSION["rol"]=="Docente"
  || $_SESSION["rol"]=="Representante"|| $_SESSION["rol"]=="Estudiante" ){
   echo  '<script> 
   window.location="'.SERVERURL.'inicio/";
@@ -33,9 +33,11 @@
     <section class="content">
         <div class="card">
             <div class="card-header">
+                <?php if($_SESSION["rol"]=="Administrador"){ ?>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarRepresentante">
                     <i class="fas fa-plus-square"></i> Agregar Representantes
                 </button>
+                <?php } ?>
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-striped dt-responsive" id="tablaboton">
@@ -76,9 +78,14 @@ foreach ($Representante as $a) {
     echo '<td>
                         <div class="btn-group">
 
-                          <button class="btn btn-warning btnEditarRepresentante" idRepresentante="' . $a["id"] . '" data-toggle="modal"  data-target="#modalEditarRepresentante">
-                          <i class="fas fa-edit"></i></butoon>
-                          <button class="btn btn-danger btnEliminarRepresentante" idRepresentante="' . $a["id"] . '" ><i class="fas fa-trash"></i></button>
+                          <button class="btn btn-primary btnFicha" data-tipo="R" data-id="' . $a["id"] . '" title="Ver ficha"><i class="fas fa-eye"></i></button>
+                          <button class="btn btn-warning btnEditarRepresentante" idRepresentante="' . $a["id"] . '" data-toggle="modal"  data-target="#modalEditarRepresentante" title="Editar">
+                          <i class="fas fa-edit"></i></button>';
+    /*BORRAR SOLO EL ADMINISTRADOR*/
+    if($_SESSION["rol"]=="Administrador"){
+      echo '<button class="btn btn-danger btnEliminarRepresentante" idRepresentante="' . $a["id"] . '" title="Borrar"><i class="fas fa-trash"></i></button>';
+    }
+    echo '
                         </div>
                         </td>
                         </tr>';
@@ -214,7 +221,7 @@ MODAL AGREGAR Representante
                 </div>
                 <?php
 $crear = new ControladorRepresentantes();
-$crear->ctrCrearRepresentante();
+if($_SESSION["rol"]=="Administrador"){ $crear->ctrCrearRepresentante(); }
 ?>
             </form>
         </div>
@@ -251,7 +258,7 @@ MODAL EDITAR Representante
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                             <input type="text" class="form-control input-lg" name="editarNombreR" id="editarNombreR"
-                                readonly>
+                                required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                         </div>
                     </div>
                     <!-- APELLIDOS -->
@@ -259,7 +266,7 @@ MODAL EDITAR Representante
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                             <input type="text" class="form-control input-lg" name="editarApellidoR" id="editarApellidoR"
-                                readonly>
+                                required maxlength="60" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}" title="Solo letras">
                         </div>
                     </div>
                     <!-- GENERO -->
@@ -327,3 +334,4 @@ $editar->ctrEditarRepresentante();
 $eliminar = new ControladorRepresentantes();
 $eliminar->ctrBorrarRepresentante();
 ?>
+<?php include __DIR__."/ficha.php"; ?>

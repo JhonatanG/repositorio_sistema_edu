@@ -74,13 +74,12 @@ foreach ($alumno as $a) {
 
     echo '<td>
                         <div class="btn-group">
-                        <button class="btn btn-primary btnVisuaEstudiante" idAlumnoV="'.$a["id"].'" data-toggle="modal"  data-target="#modalVisualizarEstudiante">
-                        <i class="fas fa-eye"></i></button>';
+                        <button class="btn btn-primary btnFicha" data-tipo="E" data-id="'.$a["id"].'" title="Ver ficha"><i class="fas fa-eye"></i></button>';
                         echo '<a class="btn btn-info" href="'.SERVERURL.'historial/'.$a["id"].'/" title="Historial académico"><i class="fas fa-history"></i></a>';
-                        /*EDITAR Y BORRAR SOLO EL ADMINISTRADOR*/
+                        /*EDITAR: ADMINISTRADOR Y SECRETARÍA. BORRAR: SOLO EL ADMINISTRADOR*/
+                        echo '<a class="btn btn-warning" href="'.SERVERURL.'editarAlumno/'.$a["id"].'" title="Editar"><i class="fas fa-edit"></i></a>';
                         if($_SESSION["rol"]=="Administrador"){
-                          echo '<a class="btn btn-warning" href="'.SERVERURL.'editarAlumno/'.$a["id"].'"><i class="fas fa-edit"></i></a>
-                          <button class="btn btn-danger btnEliminarEstudiante" idEstudiante="' . $a["id"] . '"><i class="fas fa-trash"></i></button>';
+                          echo '<button class="btn btn-danger btnEliminarEstudiante" idEstudiante="' . $a["id"] . '" title="Borrar"><i class="fas fa-trash"></i></button>';
                         }
                  echo'       </div>
                         </td>
@@ -104,157 +103,6 @@ foreach ($alumno as $a) {
 $borrarE = new ControladorAlumnos();
 $borrarE->ctrBorrarEstudiante();
 ?>
-<!-- 
-/*=============================================
-MODAL Visualizar Estudiante 
-=============================================*/ -->
-<div class="modal fade" id="modalVisualizarEstudiante" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <form method="post" enctype="multipart/form-data">
-                <div class="modal-header" style="background: #008080;">
-                    <h5 class="modal-title">Visualizar Estudiante</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="true">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <!-- 
-/*=============================================
-Estudiante 
-=============================================*/ -->
-                        <h3 style="text-align: center;"><strong> Estudiante </strong></h3>
-                        <div class="row">
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Nombres:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaNombreE"
-                                    id="visuaNombreE">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Apellidos:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaApellidoE"
-                                    id="visuaApellidoE">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Cédula:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaCedulaE"
-                                    id="visuaCedulaE">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Genero:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaGeneroE"
-                                    id="visuaGeneroE">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <!-- <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Usuario:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaUsuarioD"
-                                    id="visuaUsuarioD">
-
-                            </div> -->
-                            <div class="col-md-4 ml-auto">
-                                <label class="col-sm-2 col-form-label">Teléfono:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaTelefonoE"
-                                    id="visuaTelefonoE">
-
-                            </div>
-                            <div class="col-md-4 ml-auto">
-                                <label class="col-form-label">Fecha de Nacimiento:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaFechaE"
-                                    id="visuaFechaE">
-
-                            </div>
-                            <div class="col-md-4 ml-auto">
-                                <label class="col-sm-2 col-form-label">Edad:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="edadE" id="edadE">
-
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 ">
-                                <label class="col-sm-3 col-form-label">Email:</label>
-                                <input type="text" readonly class="form-control-plaintext input-lg" name="visuaEmailE"
-                                    id="visuaEmailE">
-
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="col-sm-3 col-form-label">Dirección:</label>
-                                <textarea type="text" readonly class="form-control-plaintext input-lg"
-                                    name="visuaDireccionE" id="visuaDireccionE"></textarea>
-                            </div>
-                        </div>
-                        <!-- 
-/*=============================================
-Representante
-=============================================*/ -->
-                        <h3 style="text-align: center;"><strong> Representante </strong></h3>
-                        <div class="row">
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Nombres:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaNombreR"
-                                    id="visuaNombreR">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Apellidos:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaApellidoR"
-                                    id="visuaApellidoR">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Cédula:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaCedulaR"
-                                    id="visuaCedulaR">
-
-                            </div>
-                            <div class="col-md-3 ml-auto">
-                                <label class="col-sm-2 col-form-label">Genero:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaGeneroR"
-                                    id="visuaGeneroR">
-
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4 ml-auto">
-                                <label class="col-sm-2 col-form-label">Teléfono:</label>
-                                <input type="text" readonly class="form-control-plaintext" name="visuaTelefonoR"
-                                    id="visuaTelefonoR">
-
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="col-sm-3 col-form-label">Email:</label>
-                                <input type="text" readonly class="form-control-plaintext input-lg" name="visuaEmailR"
-                                    id="visuaEmailR">
-
-                            </div>
-                            <div class="col-sm-4">
-                                <label class="col-sm-3 col-form-label">Dirección:</label>
-                                <textarea type="text" readonly class="form-control-plaintext input-lg"
-                                    name="visuaDireccionR" id="visuaDireccionR"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- 
 /*=============================================
 MODAL EDITAR Estudiante 
@@ -397,3 +245,5 @@ echo'<option value="'.$value["id"].'">'.$value["cedula"].': '.$value["nombre"].'
     </div>
 </div>
 </div>
+
+<?php include __DIR__."/ficha.php"; ?>

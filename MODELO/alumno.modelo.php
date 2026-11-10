@@ -76,8 +76,10 @@ class ModeloAlumnos{
 	=============================================*/
   static public function mdlEditarEstudiante($tabla,$datos)
   {
-    $stmt=Conexion::conectar()->prepare("UPDATE $tabla SET email=:email,
+    $stmt=Conexion::conectar()->prepare("UPDATE $tabla SET nombres=:nombres, apellidos=:apellidos, email=:email,
     telefono=:telefono,direccion=:direccion, id_representante=:id_representante, password =:password WHERE cedula = :cedula");
+     $stmt->bindParam(":nombres",$datos["nombres"],PDO::PARAM_STR);
+     $stmt->bindParam(":apellidos",$datos["apellidos"],PDO::PARAM_STR);
      $stmt->bindParam(":email",$datos["email"],PDO::PARAM_STR);
      $stmt->bindParam(":telefono",$datos["telefono"],PDO::PARAM_STR);
      $stmt->bindParam(":direccion",$datos["direccion"],PDO::PARAM_STR);

@@ -156,8 +156,8 @@ CONTROL EDITAR DOCENTES REGISTRADOS EN LA BASE DE DATOS
 ==========================================================================*/
 public function ctrEditarDocente(){
   if(isset($_POST["editarUsuarioD"])){
-    if(preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarNombreD"])&&
-    preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarApellidoD"])&&
+    if(preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarNombreD"]))&&
+    preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarApellidoD"]))&&
     preg_match('/^[a-zA-Z0-9-]+$/', $_POST["editarUsuarioD"])){
 
       /*LA FOTO Y LA CONTRASEÑA ACTUALES SE LEEN DE LA BASE, NO DEL FORMULARIO*/
@@ -181,6 +181,8 @@ public function ctrEditarDocente(){
       $encriptar=$actual["password"];
     }
     $datos = array(
+    "nombres"=>trim($_POST["editarNombreD"]),
+    "apellidos"=>trim($_POST["editarApellidoD"]),
     "email"=>$_POST["editarEmailD"],
     "telefono"=>$_POST["editarTelefonoD"],
     "direccion"=>$_POST["editarDireccionD"],
@@ -230,7 +232,7 @@ public function ctrEditarDocente(){
 }
 static public function ctrBorrarDocente(){
 
-  if(isset($_POST["idDocente"]) && Seguridad::tokenValido()){
+  if(isset($_POST["idDocente"]) && Seguridad::tokenValido() && Seguridad::rol()=="Administrador"){
 
     $tabla ="edu_tab_docentes";
     $datos = $_POST["idDocente"];

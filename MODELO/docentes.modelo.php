@@ -52,9 +52,11 @@ class ModeloDocentes{
 	=============================================*/
         static public function mdlEditarDocente($tabla,$datos)
     {
-      $stmt=Conexion::conectar()->prepare("UPDATE $tabla SET email=:email,
+      $stmt=Conexion::conectar()->prepare("UPDATE $tabla SET nombres=:nombres, apellidos=:apellidos, email=:email,
       telefono=:telefono,direccion=:direccion,password=:password,
       foto=:foto WHERE usuario = :usuario");
+       $stmt->bindParam(":nombres",$datos["nombres"],PDO::PARAM_STR);
+       $stmt->bindParam(":apellidos",$datos["apellidos"],PDO::PARAM_STR);
        $stmt->bindParam(":email",$datos["email"],PDO::PARAM_STR);
        $stmt->bindParam(":telefono",$datos["telefono"],PDO::PARAM_STR);
        $stmt->bindParam(":direccion",$datos["direccion"],PDO::PARAM_STR);

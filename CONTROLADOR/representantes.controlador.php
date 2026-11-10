@@ -146,8 +146,8 @@ CONTROL EDITAR Representantes REGISTRADOS EN LA BASE DE DATOS
 ==========================================================================*/
 public function ctrEditarRepresentante(){
   if(isset($_POST["editarNombreR"])){
-    if(preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarNombreR"])&&
-    preg_match('/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$/', $_POST["editarApellidoR"])){
+    if(preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarNombreR"]))&&
+    preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]{2,60}$/u', trim($_POST["editarApellidoR"]))){
 
    $tabla = "edu_tab_representantes";
    if($_POST["editarPassword"]!=""){
@@ -161,6 +161,8 @@ public function ctrEditarRepresentante(){
   }
     $datos = array(  
       "cedula"=>$_POST["editarCedulaR"],
+      "nombres"=>trim($_POST["editarNombreR"]),
+      "apellidos"=>trim($_POST["editarApellidoR"]),
       "email"=>$_POST["editarEmailR"],
     "telefono"=>$_POST["editarTelefonoR"],
     "direccion"=>$_POST["editarDireccionR"],
@@ -208,7 +210,7 @@ public function ctrEditarRepresentante(){
 }
 static public function ctrBorrarRepresentante(){
 
-  if(isset($_POST["idRepresentante"]) && Seguridad::tokenValido()){
+  if(isset($_POST["idRepresentante"]) && Seguridad::tokenValido() && Seguridad::rol()=="Administrador"){
 
     $tabla ="edu_tab_representantes";
     $datos = $_POST["idRepresentante"];
